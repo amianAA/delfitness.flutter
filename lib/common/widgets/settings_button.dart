@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../authentication/authentication.dart';
+import '../../blocs/authentication.dart';
 
 class SettingsButton extends StatelessWidget {
   const SettingsButton({Key? key}) : super(key: key);

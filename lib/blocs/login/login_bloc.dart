@@ -1,9 +1,9 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
+import 'package:delfitness/models/login.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 
-import '../models/models.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';

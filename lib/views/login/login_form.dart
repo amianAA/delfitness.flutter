@@ -1,8 +1,8 @@
+import 'package:delfitness/blocs/login/login_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 
-import '../bloc/login_bloc.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -48,7 +48,9 @@ class _EmailInput extends StatelessWidget {
               context.read<LoginBloc>().add(LoginUsernameChanged(email)),
           decoration: InputDecoration(
             labelText: 'email',
-            errorText: state.username.isNotValid ? 'invalid username' : null,
+            errorText: (state.username.isNotValid && state.username.value != "")
+                ? 'invalid username'
+                : null,
           ),
         );
       },
@@ -69,7 +71,9 @@ class _PasswordInput extends StatelessWidget {
           obscureText: true,
           decoration: InputDecoration(
             labelText: 'password',
-            errorText: state.password.isNotValid ? 'invalid password' : null,
+            errorText: (state.password.isNotValid && state.password.value != "")
+                ? 'invalid password'
+                : null,
           ),
         );
       },

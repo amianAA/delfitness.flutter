@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:delfitness/components/logout_button.dart';
+import 'package:delfitness/common/widgets/logout_button.dart';
 
-import '../../components/settings_button.dart';
-import '../../user/user_info.dart';
+import '../../common/widgets/settings_button.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -28,7 +27,6 @@ class HomePage extends StatelessWidget {
                 child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
-                  UserInfo(),
                   SettingsButton(),
                   LogoutButton(),
                 ],

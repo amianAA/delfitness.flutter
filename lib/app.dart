@@ -1,12 +1,12 @@
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:user_repository/user_repository.dart';
+import 'package:delfitness/blocs/authentication/authentication_bloc.dart';
+import 'package:delfitness/views/home/home_page.dart';
+import 'package:delfitness/views/login/login_page.dart';
+import 'package:delfitness/views/splash/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:delfitness/home/home.dart';
-import 'package:user_repository/user_repository.dart';
 
-import 'authentication/bloc/authentication_bloc.dart';
-import 'login/login.dart';
-import 'splash/splash.dart';
 
 class DelfitnessApp extends StatelessWidget {
   final AuthenticationRepository authenticationRepository;
