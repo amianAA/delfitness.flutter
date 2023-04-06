@@ -1,9 +1,0 @@
-name: api_repository
-description: Dart package which manages the api domain.
-publish_to: none
-
-environment:
-  sdk: ">=2.16.0 <3.0.0"
-
-dependencies:
-  http: ^0.13.4

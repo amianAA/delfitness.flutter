@@ -1,12 +1,13 @@
-import 'package:authentication_repository/authentication_repository.dart';
-import 'package:user_repository/user_repository.dart';
-import 'package:delfitness/blocs/authentication/authentication_bloc.dart';
-import 'package:delfitness/views/home/home_page.dart';
-import 'package:delfitness/views/login/login_page.dart';
-import 'package:delfitness/views/splash/splash_page.dart';
+// ignore_for_file: library_private_types_in_public_api
+
+import 'package:delfitness/common/repositories/authentication_repository.dart';
+import 'package:delfitness/common/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:delfitness/ui/views/home/home_page.dart';
+import 'package:delfitness/ui/views/login/login_page.dart';
+import 'package:delfitness/ui/views/splash/splash_page.dart';
+import 'package:delfitness/core/authentication/bloc/authentication_bloc.dart';
 
 class DelfitnessApp extends StatelessWidget {
   final AuthenticationRepository authenticationRepository;
@@ -27,20 +28,20 @@ class DelfitnessApp extends StatelessWidget {
           authenticationRepository: authenticationRepository,
           userRepository: userRepository,
         ),
-        child: const AppView(),
+        child: const DelfitnessAppView(),
       ),
     );
   }
 }
 
-class AppView extends StatefulWidget {
-  const AppView({Key? key}) : super(key: key);
+class DelfitnessAppView extends StatefulWidget {
+  const DelfitnessAppView({Key? key}) : super(key: key);
 
   @override
-  _AppViewState createState() => _AppViewState();
+  _DelfitnessAppViewState createState() => _DelfitnessAppViewState();
 }
 
-class _AppViewState extends State<AppView> {
+class _DelfitnessAppViewState extends State<DelfitnessAppView> {
   final _navigatorKey = GlobalKey<NavigatorState>();
 
   NavigatorState get _navigator => _navigatorKey.currentState!;
