@@ -4,6 +4,7 @@ import 'package:delfitness/common/repositories/authentication_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:http/http.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -27,9 +28,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     final username = Username.dirty(event.username);
     emit(state.copyWith(
       username: username,
-      status: Formz.validate([state.password, username])
-          ? FormzSubmissionStatus.success
-          : FormzSubmissionStatus.failure,
+      status: FormzSubmissionStatus.initial,
     ));
   }
 
@@ -40,9 +39,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     final password = Password.dirty(event.password);
     emit(state.copyWith(
       password: password,
-      status: Formz.validate([password, state.username])
-          ? FormzSubmissionStatus.success
-          : FormzSubmissionStatus.failure,
+      status: FormzSubmissionStatus.initial,
     ));
   }
 
@@ -50,17 +47,25 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     LoginSubmitted event,
     Emitter<LoginState> emit,
   ) async {
-    if (state.status.isSuccess) {
+    if (state.status.isInitial || state.status.isFailure) {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-      try {
-        await _authenticationRepository.logIn(
-          username: state.username.value,
-          password: state.password.value,
-        );
-
-        emit(state.copyWith(status: FormzSubmissionStatus.success));
-      } catch (_) {
-        emit(state.copyWith(status: FormzSubmissionStatus.failure));
+      Response resp = await _authenticationRepository.logIn(
+        username: state.username.value,
+        password: state.password.value,
+      );
+      if (resp.statusCode == 200) {
+        emit(state.copyWith(
+            status: FormzSubmissionStatus.success,
+            message: "Bienvenid@ a Delfiness ;)"));
+      } else if (resp.statusCode == 400) {
+        emit(state.copyWith(
+            status: FormzSubmissionStatus.failure,
+            message: "Las credenciales no son válidas"));
+      } else {
+        emit(state.copyWith(
+            status: FormzSubmissionStatus.failure,
+            message:
+                "Ha ocurrido un error. Por favor, contacte con el administrador."));
       }
     }
   }

@@ -5,21 +5,25 @@ class LoginState extends Equatable with FormzMixin {
     this.status = FormzSubmissionStatus.initial,
     this.username = const Username.pure(),
     this.password = const Password.pure(),
+    this.message = ""
   });
 
   final FormzSubmissionStatus status;
   final Username username;
   final Password password;
+  final String message;
 
   LoginState copyWith({
     FormzSubmissionStatus? status,
     Username? username,
     Password? password,
+    String? message,
   }) {
     return LoginState(
       status: status ?? this.status,
       username: username ?? this.username,
       password: password ?? this.password,
+      message: message ?? this.message,
     );
   }
 
@@ -28,5 +32,5 @@ class LoginState extends Equatable with FormzMixin {
   List<FormzInput<dynamic, dynamic>> get inputs => [username, password];
 
   @override
-  List<Object> get props => [status, username, password];
+  List<Object> get props => [status, username, password, message];
 }

@@ -17,7 +17,7 @@ class UserRepository with APIManagerMixin {
   set setCurrentUser(User user) => _userController.add(user);
 
   Future<User> getUser() async {
-    String detailUserPath = '/api/v1/users/who-i-am/';
+    String detailUserPath = '/api/athletes/who-i-am/';
     String token = UserStorage.getString('token');
     Map<String, String> headers = {
       'Content-Type': 'application/json',

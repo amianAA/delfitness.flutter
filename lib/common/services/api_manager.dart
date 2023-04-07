@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 
-
 import 'package:delfitness/environment.dart';
 import 'package:http/http.dart' as http;
 
 class APIManagerMixin {
-  final String _baseUrl = Environment.apiUrl;
-  final int _basePort = Environment.apiPort;
+  final String baseUrl = Environment.apiUrl;
+  final int basePort = Environment.apiPort;
+  final String scheme = Environment.scheme;
 
   static const Map<String, String> _baseHeaders = {
     'Content-Type': 'application/json',
@@ -15,11 +15,8 @@ class APIManagerMixin {
   };
 
   // class methods
-  Uri _getUriForPath(String path) => Uri(
-      scheme: const String.fromEnvironment("SCHEME", defaultValue: 'http'),
-      host: _baseUrl,
-      path: path,
-      port: _basePort);
+  Uri _getUriForPath(String path) =>
+      Uri(scheme: scheme, host: baseUrl, path: path, port: basePort);
 
   Future<http.Response> _errorResponse() => Future(() {
         http.Response response = http.Response(
@@ -28,12 +25,14 @@ class APIManagerMixin {
       });
 
   Future httpPost(
-          {required String path,
-          required Map body,
-          Map<String, String> headers = _baseHeaders}) =>
-      http
-          .post(_getUriForPath(path), body: json.encode(body), headers: headers)
-          .onError((error, stackTrace) => _errorResponse());
+      {required String path,
+      required Map body,
+      Map<String, String> headers = _baseHeaders}) {
+    Uri url = _getUriForPath(path);
+    return http
+        .post(url, body: json.encode(body), headers: headers)
+        .onError((error, stackTrace) => _errorResponse());
+  }
 
   Future httpGet(
           {required String path, Map<String, String> headers = _baseHeaders}) =>

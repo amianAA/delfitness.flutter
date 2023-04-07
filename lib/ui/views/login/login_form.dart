@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 
-
 class LoginForm extends StatelessWidget {
   const LoginForm({Key? key}) : super(key: key);
 
@@ -15,7 +14,7 @@ class LoginForm extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              const SnackBar(content: Text('Authentication Failure')),
+              SnackBar(content: Text(state.message)),
             );
         }
       },
@@ -24,7 +23,7 @@ class LoginForm extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _EmailInput(),
+            _UsernameInput(),
             const Padding(padding: EdgeInsets.all(12)),
             _PasswordInput(),
             const Padding(padding: EdgeInsets.all(12)),
@@ -36,21 +35,18 @@ class LoginForm extends StatelessWidget {
   }
 }
 
-class _EmailInput extends StatelessWidget {
+class _UsernameInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) => previous.username != current.username,
       builder: (context, state) {
         return TextField(
-          key: const Key('loginForm_emailInput_textField'),
-          onChanged: (email) =>
-              context.read<LoginBloc>().add(LoginUsernameChanged(email)),
-          decoration: InputDecoration(
-            labelText: 'email',
-            errorText: (state.username.isNotValid && state.username.value != "")
-                ? 'invalid username'
-                : null,
+          key: const Key('loginForm_usernameInput_textField'),
+          onChanged: (username) =>
+              context.read<LoginBloc>().add(LoginUsernameChanged(username)),
+          decoration: const InputDecoration(
+            labelText: 'username'
           ),
         );
       },
@@ -69,11 +65,8 @@ class _PasswordInput extends StatelessWidget {
           onChanged: (password) =>
               context.read<LoginBloc>().add(LoginPasswordChanged(password)),
           obscureText: true,
-          decoration: InputDecoration(
-            labelText: 'password',
-            errorText: (state.password.isNotValid && state.password.value != "")
-                ? 'invalid password'
-                : null,
+          decoration: const InputDecoration(
+            labelText: 'password'
           ),
         );
       },
@@ -91,11 +84,9 @@ class _LoginButton extends StatelessWidget {
             ? const CircularProgressIndicator()
             : ElevatedButton(
                 key: const Key('loginForm_continue_raisedButton'),
-                onPressed: state.status.isSuccess
-                    ? () {
+                onPressed: () {
                         context.read<LoginBloc>().add(const LoginSubmitted());
-                      }
-                    : null,
+                      },
                 child: const Text('Login'),
               );
       },
