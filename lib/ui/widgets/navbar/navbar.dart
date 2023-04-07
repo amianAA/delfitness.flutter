@@ -3,7 +3,6 @@ import 'package:delfitness/ui/widgets/navbar/bloc/navbar_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class NavBar extends StatelessWidget {
   const NavBar({Key? key}) : super(key: key);
 
