@@ -1,6 +1,6 @@
 import 'package:delfitness/settings/environment.dart';
 
-mixin APIManagerMixin {
+class APIManagerMixin {
   final String baseUrl = Environment.apiUrl;
   final int basePort = Environment.apiPort;
   final String scheme = Environment.scheme;
