@@ -58,4 +58,7 @@ app.*.map.json
 *.zip
 report.xml
 **/fastlane/*.json
- 
+
+# Testing
+/coverage
+/test/coverage_helper_test.dart

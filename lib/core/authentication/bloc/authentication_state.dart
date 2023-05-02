@@ -12,7 +12,10 @@ class AuthenticationState extends Equatable {
   const AuthenticationState.authenticated(User user)
       : this._(status: AuthenticationStatus.authenticated, user: user);
   const AuthenticationState.unauthenticated()
-      : this._(status: AuthenticationStatus.unauthenticated);
+      // ignored by coverage due to bug:  https://github.com/dart-lang/sdk/issues/38934
+      : this._(
+            status:
+                AuthenticationStatus.unauthenticated); // coverage:ignore-line
 
   @override
   List<Object> get props => [status, user];
