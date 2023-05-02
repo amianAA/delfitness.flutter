@@ -8,30 +8,35 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LoginBloc, LoginState>(
-      listener: (context, state) {
-        if (state.status.isFailure) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
-        }
-      },
-      child: Align(
-        alignment: const Alignment(0, -1 / 3),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _UsernameInput(),
-            const Padding(padding: EdgeInsets.all(12)),
-            _PasswordInput(),
-            const Padding(padding: EdgeInsets.all(12)),
-            _LoginButton(),
-          ],
-        ),
-      ),
-    );
+    return Scaffold(
+        appBar: AppBar(title: const Text('Login')),
+        body: Padding(
+            padding: const EdgeInsets.all(12),
+            child: BlocListener<LoginBloc, LoginState>(
+                listener: (context, state) {
+                  if (state.status.isFailure) {
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        SnackBar(
+                          content: Text(state.message),
+                        ),
+                      );
+                  }
+                },
+                child: Align(
+                  alignment: const Alignment(0, -1 / 3),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _UsernameInput(),
+                      const Padding(padding: EdgeInsets.all(12)),
+                      _PasswordInput(),
+                      const Padding(padding: EdgeInsets.all(12)),
+                      _LoginButton(),
+                    ],
+                  ),
+                ))));
   }
 }
 
@@ -45,9 +50,7 @@ class _UsernameInput extends StatelessWidget {
           key: const Key('loginForm_usernameInput_textField'),
           onChanged: (username) =>
               context.read<LoginBloc>().add(LoginUsernameChanged(username)),
-          decoration: const InputDecoration(
-            labelText: 'username'
-          ),
+          decoration: const InputDecoration(labelText: 'username'),
         );
       },
     );
@@ -65,9 +68,7 @@ class _PasswordInput extends StatelessWidget {
           onChanged: (password) =>
               context.read<LoginBloc>().add(LoginPasswordChanged(password)),
           obscureText: true,
-          decoration: const InputDecoration(
-            labelText: 'password'
-          ),
+          decoration: const InputDecoration(labelText: 'password'),
         );
       },
     );
@@ -85,8 +86,8 @@ class _LoginButton extends StatelessWidget {
             : ElevatedButton(
                 key: const Key('loginForm_continue_raisedButton'),
                 onPressed: () {
-                        context.read<LoginBloc>().add(const LoginSubmitted());
-                      },
+                  context.read<LoginBloc>().add(const LoginSubmitted());
+                },
                 child: const Text('Login'),
               );
       },

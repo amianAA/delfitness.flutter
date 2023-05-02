@@ -1,10 +1,8 @@
-// ignore_for_file: library_private_types_in_public_api
-
-import 'package:delfitness/common/repositories/authentication_repository.dart';
-import 'package:delfitness/common/repositories/user_repository.dart';
+import 'package:delfitness/common/repositories/authentication/authentication_repository.dart';
+import 'package:delfitness/common/repositories/user/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:delfitness/ui/views/home/home_page.dart';
+import 'package:delfitness/ui/views/profile/profile_page.dart';
 import 'package:delfitness/ui/views/login/login_page.dart';
 import 'package:delfitness/ui/views/splash/splash_page.dart';
 import 'package:delfitness/core/authentication/bloc/authentication_bloc.dart';
@@ -28,20 +26,14 @@ class DelfitnessApp extends StatelessWidget {
           authenticationRepository: authenticationRepository,
           userRepository: userRepository,
         ),
-        child: const DelfitnessAppView(),
+        child: DelfitnessAppView(),
       ),
     );
   }
 }
 
-class DelfitnessAppView extends StatefulWidget {
-  const DelfitnessAppView({Key? key}) : super(key: key);
-
-  @override
-  _DelfitnessAppViewState createState() => _DelfitnessAppViewState();
-}
-
-class _DelfitnessAppViewState extends State<DelfitnessAppView> {
+class DelfitnessAppView extends StatelessWidget {
+  DelfitnessAppView({Key? key}) : super(key: key);
   final _navigatorKey = GlobalKey<NavigatorState>();
 
   NavigatorState get _navigator => _navigatorKey.currentState!;
@@ -56,7 +48,7 @@ class _DelfitnessAppViewState extends State<DelfitnessAppView> {
           switch (state.status) {
             case AuthenticationStatus.authenticated:
               _navigator.pushAndRemoveUntil<void>(
-                HomePage.route(),
+                ProfilePage.route(),
                 (route) => false,
               );
               break;

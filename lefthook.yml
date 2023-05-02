@@ -1,0 +1,15 @@
+pre-commit:
+  piped: true
+  commands:
+    1_pretty:
+      glob: '*.dart'
+      run: dart format {staged_files} && git add {staged_files}
+    2_linter:
+      run: flutter analyze
+    3_tests:
+      run: dart run full_coverage.dart && flutter test --coverage
+    4_coverage_badge:
+      run: tools/coverage/coverage_badge.sh
+
+
+

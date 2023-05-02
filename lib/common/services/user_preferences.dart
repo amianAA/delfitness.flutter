@@ -1,23 +1,25 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserStorage {
-  static Future<SharedPreferences> get _instance async =>
-      await SharedPreferences.getInstance();
-  static late SharedPreferences _prefs;
+  static UserStorage? _instance;
+  final SharedPreferences _sharedPreferences;
 
-  UserStorage._internal();
-
-  static Future<SharedPreferences?> init() async {
-    _prefs = await _instance;
-    return _prefs;
+  static Future<UserStorage> getInstance() async {
+    if (_instance == null) {
+      final sharedPreferences = await SharedPreferences.getInstance();
+      _instance = UserStorage._(sharedPreferences);
+    }
+    return _instance!;
   }
 
-  static String getString(String key, [String? defValue]) {
-    return _prefs.getString(key) ?? defValue ?? "";
+  UserStorage._(SharedPreferences sharedPreferences)
+      : _sharedPreferences = sharedPreferences;
+
+  Future<String> getString(String key, [String? defValue]) async {
+    return _sharedPreferences.getString(key) ?? defValue ?? "";
   }
 
-  static Future<bool> setString(String key, String value) async {
-    SharedPreferences prefs = await _instance;
-    return prefs.setString(key, value);
+  Future<bool> setString(String key, String value) async {
+    return _sharedPreferences.setString(key, value);
   }
 }

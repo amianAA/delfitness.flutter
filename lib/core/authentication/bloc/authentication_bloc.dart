@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:delfitness/common/models/user.dart';
-import 'package:delfitness/common/repositories/authentication_repository.dart';
-import 'package:delfitness/common/repositories/user_repository.dart';
+import 'package:delfitness/common/repositories/user/models/user.dart';
+import 'package:delfitness/common/repositories/authentication/authentication_repository.dart';
+import 'package:delfitness/common/repositories/user/user_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,16 +38,11 @@ class AuthenticationBloc
 
   void _onAuthenticationStatusChanged(AuthenticationStatusChanged event,
       Emitter<AuthenticationState> emit) async {
-    // Faking auth
-    /*     const user = User(email: 'test@email.com', firstName: 'First Name', lastName: 'Surname', id: 1);
-        return emit(const AuthenticationState.authenticated(user));
-        // TODO remove the two above lines */
-
     switch (event.status) {
       case AuthenticationStatus.unauthenticated:
         return emit(const AuthenticationState.unauthenticated());
       case AuthenticationStatus.authenticated:
-        final user = await _tryGetUser();
+        final user = await _whoIAm();
         return emit(user != User.empty
             ? AuthenticationState.authenticated(user)
             : const AuthenticationState.unauthenticated());
@@ -61,9 +56,9 @@ class AuthenticationBloc
     _authenticationRepository.logOut();
   }
 
-  Future<User> _tryGetUser() async {
+  Future<User> _whoIAm() async {
     try {
-      final user = await _userRepository.getUser();
+      final user = await _userRepository.whoIAm();
       return user;
     } catch (_) {
       return User.empty;
